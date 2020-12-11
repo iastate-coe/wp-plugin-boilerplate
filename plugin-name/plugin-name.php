@@ -22,6 +22,8 @@
  * License URI:       https://www.policy.iastate.edu/softwarecopyright
  * Text Domain:       plugin-name
  * Domain Path:       /languages
+ * Bitbucket Plugin URI: https://git.its.iastate.edu/<group>/<project>
+ * Primary Branch:    master
  */
 
 // If this file is called directly, abort.

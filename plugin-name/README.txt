@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: (this should be a list of wordpress.org userid's)
 Tags: comments, spam
-Requires at least: 3.0.1
-Tested up to: 3.4
-Stable tag: 4.3
+Requires at least: 5.0
+Tested up to: 5.5
+Stable tag: 1.0.0
 License: Iowa State University of Science and Technology
 License URI: https://www.policy.iastate.edu/softwarecopyright
 
