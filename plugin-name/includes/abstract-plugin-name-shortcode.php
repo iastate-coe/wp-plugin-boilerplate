@@ -1,11 +1,11 @@
 <?php
 
-abstract class Plugin_Name_Shortcode {
+abstract class Abstract_Plugin_Name_Shortcode {
 
 	/**
 	 * Static property to hold our singleton instance.
 	 *
-	 * @var bool|Plugin_Name_Shortcode
+	 * @var bool|Abstract_Plugin_Name_Shortcode
 	 */
 	public static $instance = false;
 
@@ -23,7 +23,7 @@ abstract class Plugin_Name_Shortcode {
 	 * If an instance exists, this returns it.  If not, it creates one and
 	 * returns it.
 	 *
-	 * @return Plugin_Name_Shortcode
+	 * @return Abstract_Plugin_Name_Shortcode
 	 */
 	public static function get_instance() {
 		if ( ! self::$instance ) {

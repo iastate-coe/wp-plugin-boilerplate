@@ -167,7 +167,7 @@ class Plugin_Name {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_plugin_name() {
+	public static function get_plugin_name() {
 		return 'plugin-name';
 	}
 
