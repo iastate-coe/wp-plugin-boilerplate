@@ -13,7 +13,8 @@ The WordPress Plugin Boilerplate includes the following files:
 
 ## Features
 
-* The Boilerplate is based on the [Plugin API](http://codex.wordpress.org/Plugin_API), [Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards), and [Documentation Standards](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/).
+* The Boilerplate is based on the [Plugin API](http://codex.wordpress.org/Plugin_API), [Coding Standards](http://codex.wordpress.org/WordPress_Coding_Standards),
+  and [Documentation Standards](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/).
 * All classes, functions, and variables are documented so that you know what you need to change.
 * The Boilerplate uses a strict file organization scheme that corresponds both to the WordPress Plugin Repository structure, and that makes it easy to organize the files that compose the plugin.
 * The project includes a `.pot` file as a starting point for internationalization.
@@ -32,13 +33,15 @@ It's safe to activate the plugin at this point. Because the Boilerplate has no r
 
 ## WordPress.org Preparation
 
-The original launch of this version of the boilerplate included the folder structure needed for using your plugin on WordPress.org. That folder structure has been moved to its own repo here: https://github.com/DevinVinson/Plugin-Directory-Boilerplate
+The original launch of this version of the boilerplate included the folder structure needed for using your plugin on WordPress.org. That folder structure has been moved to its own repo
+here: https://github.com/DevinVinson/Plugin-Directory-Boilerplate
 
 ## Recommended Tools
 
 ### i18n Tools
 
-The WordPress Plugin Boilerplate uses a variable to store the text domain used when internationalizing strings throughout the Boilerplate. To take advantage of this method, there are tools that are recommended for providing correct, translatable files:
+The WordPress Plugin Boilerplate uses a variable to store the text domain used when internationalizing strings throughout the Boilerplate. To take advantage of this method, there are tools that are recommended for providing correct,
+translatable files:
 
 * [Poedit](http://www.poedit.net/)
 * [makepot](http://i18n.svn.wordpress.org/tools/trunk/)
@@ -84,7 +87,8 @@ The previous version of the WordPress Plugin Boilerplate included support for a 
 
 These tools are not part of the core of this Boilerplate, as I see them as being additions, forks, or other contributions to the Boilerplate.
 
-The same is true of using tools like Grunt, Composer, etc. These are all fantastic tools, but not everyone uses them. In order to  keep the core Boilerplate as light as possible, these features have been removed and will be introduced in other editions, and will be listed and maintained on the project homepage.
+The same is true of using tools like Grunt, Composer, etc. These are all fantastic tools, but not everyone uses them. In order to keep the core Boilerplate as light as possible, these features have been removed and will be introduced in
+other editions, and will be listed and maintained on the project homepage.
 
 # Credits
 
@@ -92,7 +96,8 @@ The WordPress Plugin Boilerplate was started in 2011 by [Tom McFarlin](http://tw
 
 The current version of the Boilerplate was developed in conjunction with [Josh Eaton](https://twitter.com/jjeaton), [Ulrich Pogson](https://twitter.com/grapplerulrich), and [Brad Vincent](https://twitter.com/themergency).
 
-The homepage is based on a design as provided by [HTML5Up](http://html5up.net), the Boilerplate logo was designed by Rob McCaskill of [BungaWeb](http://bungaweb.com), and the site `favicon` was created by [Mickey Kay](https://twitter.com/McGuive7).
+The homepage is based on a design as provided by [HTML5Up](http://html5up.net), the Boilerplate logo was designed by Rob McCaskill of [BungaWeb](http://bungaweb.com), and the site `favicon` was created
+by [Mickey Kay](https://twitter.com/McGuive7).
 
 ## Documentation, FAQs, and More
 

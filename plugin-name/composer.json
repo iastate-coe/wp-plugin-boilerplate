@@ -11,10 +11,16 @@
 		}
 	],
 	"keywords": [
-		"wordpress", "wp", "plugin"
+		"wordpress",
+		"wp",
+		"plugin"
 	],
 	"autoload": {
-		"classmap": ["admin/", "includes/", "public/"]
+		"classmap": [
+			"admin/",
+			"includes/",
+			"public/"
+		]
 	},
 	"config": {
 		"process-timeout": 0
@@ -32,7 +38,7 @@
 	"scripts": {
 		"format": "phpcbf --standard=phpcs.xml.dist --report-summary --report-source",
 		"lint": "phpcs --standard=phpcs.xml.dist --runtime-set ignore_warnings_on_exit 1",
-		"translate" : "wp i18n make-pot . languages/plugin-name.pot"
+		"translate": "wp i18n make-pot . languages/plugin-name.pot"
 	},
 	"extra": {
 		"installer-name": "plugin-name"
