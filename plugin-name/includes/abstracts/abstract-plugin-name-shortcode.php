@@ -18,19 +18,10 @@
  *
  * @since      1.0.0
  * @package    Plugin_Name
- * @subpackage includes
+ * @subpackage includes/abstracts
  * @author     Your Name <email@example.com>
  */
-abstract class Abstract_Plugin_Name_Shortcode
-{
-
-	/**
-	 * Static property to hold our singleton instance.
-	 *
-	 * @var bool|Abstract_Plugin_Name_Shortcode
-	 */
-	public static $instance = false;
-
+abstract class Abstract_Plugin_Name_Shortcode extends Abstract_Plugin_Name_Singleton {
 	/**
 	 * @var int
 	 */
@@ -42,29 +33,12 @@ abstract class Abstract_Plugin_Name_Shortcode
 	const SHORTCODE_NAME = 'plugin_name';
 
 	/**
-	 * If an instance exists, this returns it.  If not, it creates one and
-	 * returns it.
-	 *
-	 * @return Abstract_Plugin_Name_Shortcode
-	 */
-	public static function get_instance()
-	{
-		if (!static::$instance)
-		{
-			static::$instance = new static();
-		}
-
-		return static::$instance;
-	}
-
-	/**
 	 * Loads required scripts when called.
 	 *
 	 * @used-by Abstract_Plugin_Name_Shortcode::load_shortcode
 	 */
-	public function load_scripts()
-	{
-		wp_enqueue_script(Plugin_Name::get_plugin_name() . '-public');
+	public function load_scripts() {
+		wp_enqueue_script( Plugin_Name::get_plugin_name() . '-public' );
 	}
 
 	/**
@@ -77,16 +51,15 @@ abstract class Abstract_Plugin_Name_Shortcode
 	 * @uses    shortcode_atts
 	 * @used-by add_shortcode
 	 */
-	public function load_shortcode($attributes)
-	{
-		if ($this->get_instance_count() === 0)
-		{
+	public function load_shortcode( $attributes ) {
+		if ( $this->get_instance_count() === 0 ) {
 			$this->load_scripts();
 		}
 		$content = $this->content(
-			shortcode_atts($this->get_default_options(), $attributes, static::SHORTCODE_NAME)
+			shortcode_atts( $this->get_default_options(), $attributes, static::SHORTCODE_NAME )
 		);
 		$this->increase_instance_count();
+
 		return $content;
 	}
 
@@ -97,8 +70,7 @@ abstract class Abstract_Plugin_Name_Shortcode
 	 *
 	 * @return string
 	 */
-	protected function content($attributes)
-	{
+	protected function content( $attributes ) {
 		return '';
 	}
 
@@ -109,25 +81,23 @@ abstract class Abstract_Plugin_Name_Shortcode
 	 *
 	 * @used-by Abstract_Plugin_Name_Shortcode::load_shortcode
 	 */
-	protected function get_default_options()
-	{
-		return [];
+	protected function get_default_options() {
+		return array();
 	}
 
 	/**
 	 * @return int
 	 */
-	protected function get_instance_count()
-	{
+	public function get_instance_count() {
 		return $this->instance_counter;
 	}
 
 	/**
 	 * @return int
 	 */
-	protected function increase_instance_count()
-	{
-		$this->instance_counter++;
+	protected function increase_instance_count() {
+		$this->instance_counter ++;
+
 		return $this->get_instance_count();
 	}
 }

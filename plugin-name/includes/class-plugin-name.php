@@ -26,8 +26,7 @@
  * @subpackage includes
  * @author     Your Name <email@example.com>
  */
-class Plugin_Name
-{
+class Plugin_Name {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -48,18 +47,15 @@ class Plugin_Name
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$this->load_dependencies();
 		$this->set_locale();
+		$this->define_post_types();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 		$this->define_wp_json_hooks();
-
-		if (defined('WP_CLI') && WP_CLI)
-		{
-			$this->define_wp_cli_hooks();
-		}
+		$this->define_shortcodes();
+		$this->define_wp_cli_hooks();
 	}
 
 	/**
@@ -77,49 +73,63 @@ class Plugin_Name
 	 *
 	 * @since    1.0.0
 	 * @access   private
+	 * variable uses plugin_dir_path()
+	 * phpcs:disable WordPressVIPMinimum.Files.IncludingFile.UsingVariable
 	 */
-	private function load_dependencies()
-	{
+	private function load_dependencies() {
+		if ( ! empty( $this->loader ) ) {
+			return;
+		}
+		$package_root_dir = static::get_package_dir_path();
+
+		/**
+		 * The high level abstracts and traits
+		 */
+		require_once $package_root_dir . 'includes/abstracts/abstract-plugin-name-singleton.php';
+		require_once $package_root_dir . 'includes/abstracts/abstract-plugin-name-shortcode.php';
+		require_once $package_root_dir . 'includes/abstracts/abstract-plugin-name-post-type.php';
+		require_once $package_root_dir . 'includes/traits/trait-plugin-name-array-handler.php';
+
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once static::get_package_dir_path() . 'includes/class-plugin-name-loader.php';
+		require_once $package_root_dir . 'includes/class-plugin-name-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once static::get_package_dir_path() . 'includes/class-plugin-name-i18n.php';
+		require_once $package_root_dir . 'includes/class-plugin-name-i18n.php';
 
 		/**
 		 * load options required for the plugin.
 		 */
-		require_once static::get_package_dir_path() . 'includes/class-plugin-name-options.php';
+		require_once $package_root_dir . 'includes/class-plugin-name-options.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once static::get_package_dir_path() . 'admin/class-plugin-name-admin.php';
+		require_once $package_root_dir . 'admin/class-plugin-name-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once static::get_package_dir_path() . 'public/class-plugin-name-public.php';
+		require_once $package_root_dir . 'public/class-plugin-name-public.php';
 
 		/**
 		 * The classes for loading any shortcodes.
 		 */
-		require_once static::get_package_dir_path() . 'includes/abstract-plugin-name-shortcode.php';
-		require_once static::get_package_dir_path() . 'shortcode/class-plugin-name-shortcode.php';
+		require_once $package_root_dir . 'includes/abstract-plugin-name-shortcode.php';
+		require_once $package_root_dir . 'shortcode/class-plugin-name-shortcode.php';
 
 		/**
 		 * The classes for loading any hooks into the REST API.
 		 */
-		require_once static::get_package_dir_path() . 'wp-json/class-plugin-name-wp-rest-controller.php';
-		require_once static::get_package_dir_path() . 'wp-json/class-plugin-name-wp-rest.php';
-
+		require_once $package_root_dir . 'wp-json/class-plugin-name-wp-rest-controller.php';
+		require_once $package_root_dir . 'wp-json/class-plugin-name-wp-rest.php';
+		// phpcs:enable
 		$this->loader = new Plugin_Name_Loader();
 	}
 
@@ -132,11 +142,10 @@ class Plugin_Name
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function set_locale()
-	{
-		$plugin_i18n = new Plugin_Name_i18n(static::get_plugin_name(), static::get_version());
+	private function set_locale() {
+		$plugin_i18n = new Plugin_Name_i18n( static::get_plugin_name(), static::get_version() );
 
-		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
+		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 	}
 
 	/**
@@ -146,12 +155,11 @@ class Plugin_Name
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_admin_hooks()
-	{
-		$plugin_admin = new Plugin_Name_Admin(static::get_plugin_name(), static::get_version());
+	private function define_admin_hooks() {
+		$plugin_admin = new Plugin_Name_Admin( static::get_plugin_name(), static::get_version() );
 
-		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
-		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 	}
 
 	/**
@@ -161,14 +169,13 @@ class Plugin_Name
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_public_hooks()
-	{
-		$plugin_public = new Plugin_Name_Public(static::get_plugin_name(), static::get_version());
+	private function define_public_hooks() {
+		$plugin_public = new Plugin_Name_Public( static::get_plugin_name(), static::get_version() );
 
-		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
-		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		$this->loader->add_shortcode(Plugin_Name_Shortcode::SHORTCODE_NAME, Plugin_Name_Shortcode::get_instance(), 'load_shortcode');
+		$this->loader->add_shortcode( Plugin_Name_Shortcode::SHORTCODE_NAME, Plugin_Name_Shortcode::get_instance(), 'load_shortcode' );
 	}
 
 	/**
@@ -178,11 +185,10 @@ class Plugin_Name
 	 * @since    1.1.0
 	 * @access   private
 	 */
-	private function define_wp_json_hooks()
-	{
-		$plugin_wp_json = new Plugin_Name_Wp_Rest(static::get_plugin_name(), static::get_version());
+	private function define_wp_json_hooks() {
+		$plugin_wp_json = new Plugin_Name_Wp_Rest( static::get_plugin_name(), static::get_version() );
 
-		$this->loader->add_filter('rest_api_init', $plugin_wp_json, 'register_routes');
+		$this->loader->add_filter( 'rest_api_init', $plugin_wp_json, 'register_routes' );
 	}
 
 	/**
@@ -192,18 +198,38 @@ class Plugin_Name
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_wp_cli_hooks()
-	{
+	private function define_wp_cli_hooks() {
+		if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
+			return;
+		}
+		// phpcs:disable WordPressVIPMinimum.Files.IncludingFile.NotAbsolutePath
 		require_once static::get_package_dir_path() . 'wp-cli/class-plugin-name-wp-cli-command.php';
+		// phpcs:enable
+		try {
+			WP_CLI::add_command( static::get_plugin_name(), 'Pods_Plugin_Name_Wp_Cli_Command' );
+		} catch ( Exception $exception ) {
+			wp_die( esc_html( $exception->getMessage() ) );
+		}
+	}
 
-		try
-		{
-			WP_CLI::add_command(static::get_plugin_name(), 'Pods_Plugin_Name_Wp_Cli_Command');
-		}
-		catch (Exception $exception)
-		{
-			wp_die(esc_html($exception->getMessage()));
-		}
+	/**
+	 * Register all of the shortcodes.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_shortcodes() {
+		$this->loader->add_shortcode( Plugin_Name_Shortcode::get_instance() );
+	}
+
+	/**
+	 * Register all the shortcodes.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_post_types() {
+		$this->loader->add_post_type( Plugin_Name_Post_Type::get_instance() );
 	}
 
 	/**
@@ -211,8 +237,7 @@ class Plugin_Name
 	 *
 	 * @since    1.0.0
 	 */
-	public function run()
-	{
+	public function run() {
 		$this->loader->run();
 	}
 
@@ -222,8 +247,7 @@ class Plugin_Name
 	 * @return    Plugin_Name_Loader    Orchestrates the hooks of the plugin.
 	 * @since     1.0.0
 	 */
-	public function get_loader()
-	{
+	public function get_loader() {
 		return $this->loader;
 	}
 
@@ -234,8 +258,7 @@ class Plugin_Name
 	 * @return    string    The name of the plugin.
 	 * @since     1.0.0
 	 */
-	public static function get_plugin_name()
-	{
+	public static function get_plugin_name() {
 		return 'plugin-name';
 	}
 
@@ -245,9 +268,8 @@ class Plugin_Name
 	 * @return    string    The version number of the plugin.
 	 * @since     1.0.0
 	 */
-	public static function get_version()
-	{
-		return defined('PLUGIN_NAME_VERSION') ? PLUGIN_NAME_VERSION : '1.0.0';
+	public static function get_version() {
+		return defined( 'PLUGIN_NAME_VERSION' ) ? PLUGIN_NAME_VERSION : '1.0.0';
 	}
 
 	/**
@@ -257,9 +279,8 @@ class Plugin_Name
 	 * @uses      plugin_dir_path()
 	 * @since     1.0.0
 	 */
-	public static function get_package_dir_path()
-	{
-		return plugin_dir_path(dirname(__FILE__));
+	public static function get_package_dir_path() {
+		return plugin_dir_path( dirname( __FILE__ ) );
 	}
 
 }
