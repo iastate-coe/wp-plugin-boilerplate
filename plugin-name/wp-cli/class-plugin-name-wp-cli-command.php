@@ -17,8 +17,7 @@
  * @subpackage wp-cli
  * @author     Your Name <email@example.com>
  */
-class Plugin_Name_Wp_Cli_Command extends WP_CLI_Command
-{
+class Plugin_Name_Wp_Cli_Command extends WP_CLI_Command {
 
 	/**
 	 * Prints a greeting.
@@ -43,13 +42,12 @@ class Plugin_Name_Wp_Cli_Command extends WP_CLI_Command
 	 *
 	 * @when after_wp_load
 	 */
-	function hello($args, $assoc_args)
-	{
-		list($name) = $args;
+	function hello( $args, $assoc_args ) {
+		list( $name ) = $args;
 
 		// Print the message with type
 		$type = $assoc_args['type'];
-		WP_CLI::$type("Hello, $name!");
+		WP_CLI::$type( "Hello, $name!" );
 	}
 
 }

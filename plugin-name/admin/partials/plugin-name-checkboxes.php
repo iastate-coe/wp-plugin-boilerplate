@@ -13,37 +13,37 @@
  */
 
 /** Should contain an array sent from {@link load_template()}. */
-if (empty($args))
-{
-	$args = [];
+if ( empty( $args ) ) {
+	$args = array();
 }
 
-$options = shortcode_atts(
-	[
-		'group' => Plugin_Name::get_plugin_name(),
-		'name' => '',
+$options     = shortcode_atts(
+	array(
+		'group'         => Plugin_Name::get_plugin_name(),
+		'name'          => '',
 		'screen_reader' => '',
-		'description' => '',
-		'options' => [],
-	],
+		'description'   => '',
+		'options'       => array(),
+	),
 	$args
 );
-$option = get_option($options['group'] . '_' . $options['name']);
-$option_name = $options['group'] . '_' . $options['name'] . '[]';
+$option      = get_option( $options['group'] . '_' . $options['name'] );
+$option_name = $options['group'] . '_' . $options['name'] . 'array()';
 ?>
 <fieldset>
 	<legend class="screen-reader-text">
-		<span><?php echo esc_html($options['screen_reader']); ?></span>
+		<span><?php echo esc_html( $options['screen_reader'] ); ?></span>
 	</legend>
 	<?php
-	foreach ($options['options'] as $key => $value) :
+	foreach ( $options['options'] as $key => $value ) :
 		$option_id = $options['group'] . '_' . $options['name'] . '_' . $key;
 		?>
-		<label for="<?php echo esc_attr($option_id); ?>">
-			<input type="checkbox" name="<?php echo esc_attr($option_name); ?>" id="<?php echo esc_attr($option_id); ?>" value="<?php echo esc_attr($key); ?>" <?php checked(true, in_array($key, $option, true)); ?>>
-			<?php echo esc_html(ucfirst($key)); ?>
+		<label for="<?php echo esc_attr( $option_id ); ?>">
+			<input type="checkbox" name="<?php echo esc_attr( $option_name ); ?>" id="<?php echo esc_attr( $option_id ); ?>"
+						 value="<?php echo esc_attr( $key ); ?>" <?php checked( true, in_array( $key, $option, true ) ); ?>>
+			<?php echo esc_html( ucfirst( $key ) ); ?>
 		</label>
 		<br>
 	<?php endforeach; ?>
-	<p class="description"><?php echo esc_html($options['description']); ?></p>
+	<p class="description"><?php echo esc_html( $options['description'] ); ?></p>
 </fieldset>

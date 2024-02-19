@@ -23,8 +23,7 @@
  * @subpackage includes
  * @author     Your Name <email@example.com>
  */
-class Plugin_Name_i18n
-{
+class Plugin_Name_i18n {
 	/**
 	 * The ID of this plugin.
 	 *
@@ -51,10 +50,9 @@ class Plugin_Name_i18n
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct($plugin_name, $version)
-	{
+	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 	}
 
 	/**
@@ -62,12 +60,11 @@ class Plugin_Name_i18n
 	 *
 	 * @since    1.0.0
 	 */
-	public function load_plugin_textdomain()
-	{
+	public function load_plugin_textdomain() {
 		load_plugin_textdomain(
 			$this->plugin_name,
 			false,
-			dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
+			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
 	}
 

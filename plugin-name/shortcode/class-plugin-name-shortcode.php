@@ -21,8 +21,7 @@
  * @subpackage shortcode
  * @author     Your Name <email@example.com>
  */
-class Plugin_Name_Shortcode extends Abstract_Plugin_Name_Shortcode
-{
+class Plugin_Name_Shortcode extends Abstract_Plugin_Name_Shortcode {
 
 	/**
 	 * {@inheritdoc }
@@ -39,17 +38,15 @@ class Plugin_Name_Shortcode extends Abstract_Plugin_Name_Shortcode
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function content($atts)
-	{
+	protected function content( $atts ) {
 		return 'Hello World!';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	protected function get_default_options()
-	{
-		return [];
+	protected function get_default_options() {
+		return array();
 	}
 	// Additional Shortcode logic.
 }

@@ -19,8 +19,7 @@
  * @subpackage includes
  * @author     Your Name <email@example.com>
  */
-class Plugin_Name_Deactivator
-{
+class Plugin_Name_Deactivator {
 
 	/**
 	 * Short Description. (use period)
@@ -29,10 +28,8 @@ class Plugin_Name_Deactivator
 	 *
 	 * @since    1.0.0
 	 */
-	public static function deactivate()
-	{
-		if (!empty(Plugin_Name_Options::default_options()))
-		{
+	public static function deactivate() {
+		if ( ! empty( Plugin_Name_Options::default_options() ) ) {
 			Plugin_Name_Options::unregister_options();
 		}
 	}

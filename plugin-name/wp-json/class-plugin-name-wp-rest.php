@@ -19,8 +19,7 @@
  * @subpackage wp-json
  * @author     Your Name <email@example.com>
  */
-class Plugin_Name_Wp_Rest
-{
+class Plugin_Name_Wp_Rest {
 	/**
 	 * The ID of this plugin.
 	 *
@@ -47,10 +46,9 @@ class Plugin_Name_Wp_Rest
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct($plugin_name, $version)
-	{
+	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 	}
 
 	/**
@@ -58,8 +56,7 @@ class Plugin_Name_Wp_Rest
 	 *
 	 * @since    1.0.0
 	 */
-	public function register_routes()
-	{
-		(new Plugin_Name_Wp_Rest_Controller())->register_routes();
+	public function register_routes() {
+		( new Plugin_Name_Wp_Rest_Controller() )->register_routes();
 	}
 }

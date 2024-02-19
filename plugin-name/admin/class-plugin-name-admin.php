@@ -19,8 +19,7 @@
  * @subpackage admin
  * @author     Your Name <email@example.com>
  */
-class Plugin_Name_Admin
-{
+class Plugin_Name_Admin {
 
 	/**
 	 * The ID of this plugin.
@@ -48,10 +47,9 @@ class Plugin_Name_Admin
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct($plugin_name, $version)
-	{
+	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 	}
 
 	/**
@@ -59,8 +57,7 @@ class Plugin_Name_Admin
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles()
-	{
+	public function enqueue_styles() {
 		/**
 		 * This function is provided for demonstration purposes only.
 		 *
@@ -73,7 +70,7 @@ class Plugin_Name_Admin
 		 * class.
 		 */
 
-		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/plugin-name-admin.css', [], $this->version, 'all');
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/plugin-name-admin.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -81,8 +78,7 @@ class Plugin_Name_Admin
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts()
-	{
+	public function enqueue_scripts() {
 		/**
 		 * This function is provided for demonstration purposes only.
 		 *
@@ -95,18 +91,17 @@ class Plugin_Name_Admin
 		 * class.
 		 */
 
-		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/plugin-name-admin.js', ['jquery'], $this->version, false);
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/plugin-name-admin.js', array( 'jquery' ), $this->version, false );
 	}
 
 	/**
 	 * Register plugin settings.
 	 *
-	 * @since    1.0.0
 	 * @return void
+	 * @since    1.0.0
 	 */
-	public function register_settings()
-	{
-		$options = Plugin_Name_Options::get_instance();
+	public function register_settings() {
+		$options               = Plugin_Name_Options::get_instance();
 		$general_settings_page = 'general';
 
 		/*
@@ -116,7 +111,7 @@ class Plugin_Name_Admin
 		$general_section = $this->plugin_name . '_reading_section';
 		add_settings_section(
 			$general_section,
-			__('Automated Page Redirect Settings', 'plugin-name'),
+			__( 'Automated Page Redirect Settings', 'plugin-name' ),
 			'__return_empty_string',
 			$general_settings_page
 		);
@@ -129,25 +124,25 @@ class Plugin_Name_Admin
 		register_setting(
 			$general_settings_page,
 			$option_name,
-			[
-				'type' => 'array',
+			array(
+				'type'              => 'array',
 				'sanitize_callback' => 'rest_sanitize_array',
-				'default' => $options->get('checkbox_example'),
-				'show_in_rest' => false,
-			]
+				'default'           => $options->get( 'checkbox_example' ),
+				'show_in_rest'      => false,
+			)
 		);
 		add_settings_field(
 			$option_name,
-			__('Checkbox Example', 'plugin-name'),
-			[$this, 'callback_checkbox'],
+			__( 'Checkbox Example', 'plugin-name' ),
+			array( $this, 'callback_checkbox' ),
 			$general_settings_page,
 			$general_section,
-			[
-				'name' => 'checkbox_example',
-				'screen_reader' => _x('Checkbox Example', 'screen reader', 'plugin-name'),
-				'description' => __('Checkbox example description.', 'plugin-name'),
-				'options' => wp_roles()->get_names(),
-			]
+			array(
+				'name'          => 'checkbox_example',
+				'screen_reader' => _x( 'Checkbox Example', 'screen reader', 'plugin-name' ),
+				'description'   => __( 'Checkbox example description.', 'plugin-name' ),
+				'options'       => wp_roles()->get_names(),
+			)
 		);
 
 		/*
@@ -158,26 +153,26 @@ class Plugin_Name_Admin
 		register_setting(
 			$general_settings_page,
 			$option_name,
-			[
-				'type' => 'string',
+			array(
+				'type'              => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
-				'default' => $options->get('text_example'),
-				'show_in_rest' => false,
-			]
+				'default'           => $options->get( 'text_example' ),
+				'show_in_rest'      => false,
+			)
 		);
 		add_settings_field(
 			$option_name,
-			__('Text Example', 'plugin-name'),
-			[$this, 'callback_input'],
+			__( 'Text Example', 'plugin-name' ),
+			array( $this, 'callback_input' ),
 			$general_settings_page,
 			$general_section,
-			[
-				'type' => 'text',
-				'name' => 'text-example',
-				'input_label' => __('Label', 'plugin-name'),
-				'screen_reader' => _x('Text Example', 'screen reader', 'plugin-name'),
-				'input_class' => 'small-text',
-			]
+			array(
+				'type'          => 'text',
+				'name'          => 'text-example',
+				'input_label'   => __( 'Label', 'plugin-name' ),
+				'screen_reader' => _x( 'Text Example', 'screen reader', 'plugin-name' ),
+				'input_class'   => 'small-text',
+			)
 		);
 	}
 
@@ -189,10 +184,9 @@ class Plugin_Name_Admin
 	 * @access   private
 	 * @since    1.0.0
 	 */
-	public function callback_input($args = array())
-	{
+	public function callback_input( $args = array() ) {
 		load_template(
-			plugin_dir_path(__FILE__) . 'partials/plugin-name-input.php',
+			plugin_dir_path( __FILE__ ) . 'partials/plugin-name-input.php',
 			false,
 			$args
 		);
@@ -206,10 +200,9 @@ class Plugin_Name_Admin
 	 * @access   private
 	 * @since    1.0.0
 	 */
-	public function callback_checkbox($args = array())
-	{
+	public function callback_checkbox( $args = array() ) {
 		load_template(
-			plugin_dir_path(__FILE__) . 'partials/plugin-name-checkboxes.php',
+			plugin_dir_path( __FILE__ ) . 'partials/plugin-name-checkboxes.php',
 			false,
 			$args
 		);
