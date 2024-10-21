@@ -13,15 +13,21 @@ set -o pipefail   # Use last non-zero exit code in a pipeline
 #       $@ (optional): Arguments provided to the script
 # OUTS: Variables indicating command-line parameters and options
 function script::parse_params() {
-  var_folder_path=${1}
-  shift
+  if [ "$#" -eq 0 ]; then
+      script::log_debug "Nothing passed"
+      var_trigger_help=1
+      return
+  fi
 
   local param
   while [[ "$#" -gt 0 ]]; do
     param="${1}"
     case "${param}" in
-      -vv | --debug)
+      -vvv)
         var_debug=1
+        var_trace=1
+        shift 1 ;;
+      -vv | --debug)
         var_trace=1
         shift 1 ;;
       -v | --verbose)
@@ -35,12 +41,17 @@ function script::parse_params() {
         var_string_find="${2}"
         shift 2
         ;;
+      --target | -t)
+        var_folder_path="${2}"
+        shift 2
+        ;;
       --help | -h)
         var_trigger_help=1
         shift 1
         ;;
       *)
-        script::log_debug "Unrecognized input: \"${1}\""
+        script::log "Unrecognized input: \"${1}\""
+        var_trigger_help=1
         shift ;;
     esac
   done
@@ -53,18 +64,18 @@ function script::help(){
   local verbose=$( if script::is_debug;then echo 'True';else echo 'False';fi)
   local stack_trace=$( if script::is_stack_trace;then echo 'True';else echo 'False';fi)
   local relative_script_path=$( script::get_relative_path "${BASH_SOURCE[0]}" )
+  local relative_work_path=$( script::get_relative_path "${var_folder_path}" )
   cat <<HELPMSG
-Usage: ${relative_script_path} <FOLDER_PATH> [OPTIONS]...
+Usage: ${relative_script_path} [OPTIONS]...
 
 Options:
-    -v,  --verbose   Turn on additional log information (Value: ${verbose})
-    -vv, --debug     Turn on stack trace information (Value: ${stack_trace})
     -n,  --name      New name of folder and classes (Value: "${var_string_replace}")
     -f,  --find      Target name to replace (Value: "${var_string_find}")
+    -t,  --target    Path to run replacements on (Value: "${relative_work_path}")
     -h,  --help      Display this message
-
-Arguments:
-    FOLDER_PATH: Folder location to find/replace
+    -v,  --verbose   Turn on additional log information (Value: ${verbose})
+    -vv, --debug     Turn on stack trace information (Value: ${stack_trace})
+    -vvv             Turn on stack trace and debug information
 HELPMSG
 }
 
@@ -83,14 +94,15 @@ function script::init() {
   ## Constants that will not change during runtime ##
   readonly dir_project_root=$(script::get_parent_directory 2)
   readonly dir_build_root="${dir_project_root}/build"
+  readonly dir_default_template="${dir_project_root}/plugin-name"
 
   ## App specific variables ##
   var_debug=0
   var_trace=0
   var_trigger_help=0
-  var_folder_path=""
+  var_folder_path="${dir_default_template}"
   var_string_find="plugin-name"
-  var_string_replace="stream-agg"
+  var_string_replace="new-name"
 }
 
 function script::environment_check() {
@@ -101,7 +113,7 @@ function script::environment_check() {
 
   # Stop if target directory not found.
   if [[ ! -d "${var_folder_path}" ]]; then
-    script::log_error "${var_folder_path} not a directory"
+    script::log_error "\"${var_folder_path}\" is not a directory"
     exit 1
   fi
 
@@ -250,7 +262,7 @@ function script::setup_build_folder() {
     mkdir "${new_folder}"
   fi
 
-  cp -R -P "${var_folder_path}" "${new_folder}/"
+  cp -R -P "${var_folder_path}/" "${new_folder}"
 
   var_folder_path="${new_folder}"
 }
@@ -275,7 +287,7 @@ function script::process_files() {
   ${cmd_find} "${target_directory}" \
     -type f \
     -name "*${find}*" \
-    -exec ${cmd_bash} -c '${0} ${1} ${1/${2}/${3}}' "${cmd_move}" "{}" "${find}" "${replace}" \;
+    -exec ${cmd_bash} -c '${0} "${1}" "${1/${2}/${3}}"' "${cmd_move}" "{}" "${find}" "${replace}" \;
 
   script::log "Rename files complete."
 }
@@ -389,7 +401,11 @@ function main() {
 
   script::setup_build_folder
 
-  script::log "Running process in directory: ${var_folder_path}"
+echo "${BASH_SOURCE[0]}"
+
+  local working_path=$( script::get_relative_path "${var_folder_path}" "$( pwd )")
+
+  script::log "Running process in directory: ${working_path}"
   script::log_debug "find: \"${var_string_find}\" -> \"${var_string_replace}\""
 
   script::process_files "${var_string_find}" "${var_string_replace}"

@@ -35,6 +35,12 @@ inside of it to fit your needs. For example, if your plugin is named 'example-me
 It's safe to activate the plugin at this point. Because the Boilerplate has no real functionality there will be no menu
 items, meta boxes, or custom post types added until you write the code.
 
+There is a bash script that does most of the hard work for you. 
+
+```shell
+	bin/plugin-name-rename.sh -h
+```
+
 ## WordPress.org Preparation
 
 The original launch of this version of the boilerplate included the folder structure needed for using your plugin on
